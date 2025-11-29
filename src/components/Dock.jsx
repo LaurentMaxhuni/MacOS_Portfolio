@@ -4,8 +4,10 @@ import gsap from "gsap";
 
 import { dockApps } from "#constants";
 import { useGSAP } from "@gsap/react";
+import useWindowStore from "#store/window";
 
 function Dock() {
+  const { openWindow, closeWindow, windows } = useWindowStore();
   const dockRef = useRef(null);
 
   useGSAP(() => {
@@ -17,7 +19,7 @@ function Dock() {
     const animateIcons = (mouseX) => {
       const { left } = dock.getBoundingClientRect();
       icons.forEach((icon) => {
-        const { left: iconLeft, width} = icon.getBoundingClientRect();
+        const { left: iconLeft, width } = icon.getBoundingClientRect();
         const center = iconLeft - left + width / 2;
         const distance = Math.abs(mouseX - center);
         const intensity = Math.exp(-(distance ** 2.5) / 20000);
@@ -26,9 +28,9 @@ function Dock() {
           scale: 1 + 0.25 * intensity,
           y: -15 * intensity,
           duration: 0.2,
-          ease: "power1.out"
-        })
-      })
+          ease: "power1.out",
+        });
+      });
     };
 
     const handleMouseMove = (e) => {
@@ -37,12 +39,15 @@ function Dock() {
       animateIcons(e.clientX - left);
     };
 
-    const resetIcons = () => icons.forEach((icon) => gsap.to(icon, {
-      scale: 1,
-      y: 0,
-      duration: 0.3,
-      ease: "power1.out"
-    }));
+    const resetIcons = () =>
+      icons.forEach((icon) =>
+        gsap.to(icon, {
+          scale: 1,
+          y: 0,
+          duration: 0.3,
+          ease: "power1.out",
+        })
+      );
 
     dock.addEventListener("mousemove", handleMouseMove);
     dock.addEventListener("mouseleave", resetIcons);
@@ -53,9 +58,22 @@ function Dock() {
     };
   }, []);
 
-
   const toggleApp = (app) => {
     //TODO: Implement Open Window Logic
+    if (!app.canOpen) return;
+
+    const window = windows[app.id];
+
+    if (!window) {
+      console.error(`Window not found for app id: ${app.id}`);
+      return;
+    }
+
+    if (window.isOpen) {
+      closeWindow(app.id);
+    } else {
+      openWindow(app.id);
+    }
   };
 
   return (

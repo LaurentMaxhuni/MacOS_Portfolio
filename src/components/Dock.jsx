@@ -66,7 +66,7 @@ function Dock() {
             <button
               type="button"
               className="dock-icon"
-              aria-label="name"
+              aria-label={name}
               data-tooltip-id="dock-tooltip"
               data-tooltip-content={name}
               data-tooltip-delay-show={150}

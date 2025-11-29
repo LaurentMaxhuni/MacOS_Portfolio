@@ -18,7 +18,7 @@ export default defineConfig({
       ),
       "#store": resolve(dirname(fileURLToPath(import.meta.url)), "src/store"),
       "#hoc": resolve(dirname(fileURLToPath(import.meta.url)), "src/hoc"),
-      "#window": resolve(dirname(fileURLToPath(import.meta.url)), "src/window"),
+      "#windows": resolve(dirname(fileURLToPath(import.meta.url)), "src/windows"),
     },
   },
 });

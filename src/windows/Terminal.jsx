@@ -41,7 +41,7 @@ function Terminal() {
         </ul>
         <div className="footnote">
           <p>
-            <Check size={20} /> 5 of 5 stacks loaded succesfully
+            <Check size={20} /> 5 of 5 stacks loaded successfully
             (100%)
           </p>
 
